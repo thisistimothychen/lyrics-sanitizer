@@ -1,24 +1,8 @@
-# README
+# Lyric Warner
+_(Please help me come up with a better name...)_
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+Check if a song is clean enough for your grandmother! Input either a YouTube video URL, song title and song artist, or plain text and you'll receive a rating for how SFW the song is!
 
-Things you may want to cover:
 
-* Ruby version
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+## Potential Features
+- Customize what words you want to filter
