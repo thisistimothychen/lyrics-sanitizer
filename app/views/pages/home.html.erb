@@ -1,10 +1,13 @@
-<h1>Will grandma approve of my music taste?</h1>
-
+<h1 class="page-header">Will grandma approve of my music taste?</h1>
 
 <%= form_tag pages_analysis_path do %>
-  <label for="song">Song:</label>
-  <%= text_field_tag :song %>
-  <label for="song">Artist:</label>
-  <%= text_field_tag :artist %>
-  <%= submit_tag "Analyze" %>
+  <div class="form-group">
+    <label for="song">Song</label>
+    <%= text_field_tag :song, nil, class: "form-control" %>
+  </div>
+  <div class="form-group">
+    <label for="artist">Artist</label>
+    <%= text_field_tag :artist, nil, class: "form-control" %>
+  </div>
+  <%= submit_tag "Analyze", class: "btn btn-default" %>
 <% end %>
