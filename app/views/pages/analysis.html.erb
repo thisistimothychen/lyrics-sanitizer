@@ -17,15 +17,17 @@
     <br /><br /><br /><br />
   <% end %>
 
-  <p class="lyrics">
-    <div class="col-lg-6">
-      <% @isolated_bad_lines.each do |bad_word, bad_lines| %>
-        <h4><%= bad_lines.count %> instances of <i><%= bad_word.tr('aeiou', '*') %></i> found:</h4>
-        <% bad_lines.each do |bad_line| %>
-          <%= bad_line %><br />
-        <% end %>
+
+
+  <div class="col-lg-6" style="display:none">
+    <% @isolated_bad_lines.each do |bad_word, bad_lines| %>
+      <h4><%= bad_lines.count %> instances of <i><%= bad_word.tr('aeiou', '*') %></i> found:</h4>
+      <% bad_lines.each do |bad_line| %>
+        <%= bad_line %><br />
       <% end %>
-    </div>
+    <% end %>
+  </div>
+  <p class="lyrics">
     <%= @lyrics.html_safe %>
   </p>
 <% else %>

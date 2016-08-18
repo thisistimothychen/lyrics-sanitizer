@@ -36,8 +36,9 @@ class PagesController < ApplicationController
 
       bad_words_array.each do |bad_word|
         lyrics_array.each do |line|
-          if (line.downcase().include? bad_word)
+          if (line.downcase().split(" ").include? bad_word)
             if bad_lines[bad_word]
+              puts "class: #{line.class}"
               bad_lines[bad_word] << line
             else
               bad_lines[bad_word] = Array.new << line
