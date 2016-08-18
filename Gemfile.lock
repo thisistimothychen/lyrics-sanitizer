@@ -83,6 +83,7 @@ GEM
     nokogiri (1.6.8-x86-mingw32)
       mini_portile2 (~> 2.1.0)
       pkg-config (~> 1.1.7)
+    pg (0.18.4-x86-mingw32)
     pkg-config (1.1.7)
     puma (3.6.0)
     rack (2.0.1)
@@ -159,6 +160,7 @@ DEPENDENCIES
   jbuilder (~> 2.5)
   jquery-rails
   lyricfy
+  pg
   puma (~> 3.0)
   rails (~> 5.0.0, >= 5.0.0.1)
   sass-rails (~> 5.0)
