@@ -9,7 +9,7 @@ class PagesController < ApplicationController
 
     if !@song.nil? && !@artist.nil?
       fetcher = Lyricfy::Fetcher.new
-      song = fetcher.search @artist, @song
+      song = fetcher.search @artist.downcase(), @song.downcase()
       @lyrics = song.body.gsub("\\n", '<br>') # lyrics separated by '\n'
       @isolated_bad_lines = isolated_bad_lines(@lyrics)
       @sfw = @isolated_bad_lines.empty?
@@ -36,7 +36,7 @@ class PagesController < ApplicationController
 
       bad_words_array.each do |bad_word|
         lyrics_array.each do |line|
-          if (line.include? bad_word)
+          if (line.downcase().include? bad_word)
             if bad_lines[bad_word]
               bad_lines[bad_word] << line
             else
