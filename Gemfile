@@ -44,5 +44,9 @@ end
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
 
+# You know why.
+gem 'bootstrap-sass'
+gem 'autoprefixer-rails'
+
 # Lyrics gem
 gem 'lyricfy'
