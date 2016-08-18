@@ -2,6 +2,7 @@
 
 Rails.application.routes.draw do
   get 'pages/home'
+  get 'pages/analysis'
   post 'pages/analysis'
   root 'pages#home'
 end

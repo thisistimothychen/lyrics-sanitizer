@@ -1,9 +1,10 @@
-<h1>Pages#home</h1>
-<p>Find me in app/views/pages/home.html.erb</p>
+<h1>Will grandma approve of my music taste?</h1>
 
 
 <%= form_tag pages_analysis_path do %>
-  <label for="song">Analyze this song:</label>
+  <label for="song">Song:</label>
   <%= text_field_tag :song %>
+  <label for="song">Artist:</label>
+  <%= text_field_tag :artist %>
   <%= submit_tag "Analyze" %>
 <% end %>

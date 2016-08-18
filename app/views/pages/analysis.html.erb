@@ -1,4 +1,10 @@
-<h1>Pages#analysis</h1>
-<p>Find me in app/views/pages/analysis.html.erb</p>
+<h1>Final Verdict...<%= @sfw ? "Grandma approves!" : "Grandma disapproves." %></h1>
 
-<%= @song %>
+
+<% if @lyrics %>
+  <h2><%= "#{@artist} - #{@song}" %></h2>
+  <br>
+  <%= @lyrics.html_safe %>
+<% else %>
+  <h2><%= @error_notice %></h2>
+<% end %>
