@@ -1,5 +1,5 @@
 <% if @lyrics %>
-  <h1 class="page-header"><%= @song %> <small><%= @artist %></small></h1>
+  <h1 class="page-header"><%= @song %> <small><%= @artist %></small><button class="btn btn-default pull-right">Analyze another song!</button></h1>
   <h2>Final Verdict...<%= @sfw ? "Grandma approves!" : "Grandma disapproves." %></h2>
 
   <% if !@sfw %>
