@@ -1,2 +1,9 @@
 <h1>Pages#home</h1>
 <p>Find me in app/views/pages/home.html.erb</p>
+
+
+<%= form_tag pages_analysis_path do %>
+  <label for="song">Analyze this song:</label>
+  <%= text_field_tag :song %>
+  <%= submit_tag "Analyze" %>
+<% end %>
