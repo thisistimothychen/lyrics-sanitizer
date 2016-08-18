@@ -1,17 +1,9 @@
 <% if @lyrics %>
-  <h1 class="page-header"><%= @song %> <small><%= @artist %></small><button class="btn btn-default pull-right">Analyze another song!</button></h1>
+  <h1 class="page-header"><%= @song %> <small><%= @artist %></small><%= link_to "Analyze another song!", root_path, class: "btn btn-default pull-right" %></h1>
   <h2>Final Verdict...<%= @sfw ? "Grandma approves!" : "Grandma disapproves." %></h2>
 
   <% if !@sfw %>
     <div class="row">
-      <div class="col-lg-6">
-        <% @isolated_bad_lines.each do |bad_word, bad_lines| %>
-          <h4><%= bad_lines.count %> instances of <i><%= bad_word.tr('aeiou', '*') %></i> found:</h4>
-          <% bad_lines.each do |bad_line| %>
-            <%= bad_line %><br />
-          <% end %>
-        <% end %>
-      </div>
       <div class="col-lg-6">
         <% @uniq_isolated_bad_lines.each do |bad_word, bad_lines| %>
           <h4><%= bad_lines.count %> unique instances of <i><%= bad_word.tr('aeiou', '*') %></i> found:</h4>
@@ -26,9 +18,17 @@
   <% end %>
 
   <p class="lyrics">
+    <div class="col-lg-6">
+      <% @isolated_bad_lines.each do |bad_word, bad_lines| %>
+        <h4><%= bad_lines.count %> instances of <i><%= bad_word.tr('aeiou', '*') %></i> found:</h4>
+        <% bad_lines.each do |bad_line| %>
+          <%= bad_line %><br />
+        <% end %>
+      <% end %>
+    </div>
     <%= @lyrics.html_safe %>
   </p>
 <% else %>
   <% controller.redirect_to root_path %>
-  <h2><%= @error_notice %><button class="btn btn-default pull-right">Analyze another song!</button></h2>
+  <h2><%= @error_notice %><%= link_to "Analyze another song!", root_path, class: "btn btn-default pull-right" %></h2>
 <% end %>
