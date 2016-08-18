@@ -4,26 +4,36 @@ class PagesController < ApplicationController
   end
 
   def analysis
+    @valid_input = false
     @song = params[:song]
     @artist = params[:artist]
 
     if !@song.nil? && !@artist.nil?
-      fetcher = Lyricfy::Fetcher.new
-      song = fetcher.search @artist.downcase(), @song.downcase()
-      @lyrics = song.body.gsub("\\n", '<br>') # lyrics separated by '\n'
-      @isolated_bad_lines = isolated_bad_lines(@lyrics)
-      @sfw = @isolated_bad_lines.empty?
+      begin
+        fetcher = Lyricfy::Fetcher.new
+        song = fetcher.search @artist.downcase(), @song.downcase()
 
-      @uniq_isolated_bad_lines = Hash.new
-      @isolated_bad_lines.each do |bad_word, bad_lines|
-        @uniq_isolated_bad_lines[bad_word] = Array.new
-        bad_lines.uniq.each do |uniq_line|
-          @uniq_isolated_bad_lines[bad_word] << uniq_line
+        if !song.nil?
+          @valid_input = true
+          @lyrics = song.body.gsub("\\n", '<br>') # lyrics separated by '\n'
+          @isolated_bad_lines = isolated_bad_lines(@lyrics)
+          @sfw = @isolated_bad_lines.empty?
+
+          @uniq_isolated_bad_lines = Hash.new
+          @isolated_bad_lines.each do |bad_word, bad_lines|
+            @uniq_isolated_bad_lines[bad_word] = Array.new
+            bad_lines.uniq.each do |uniq_line|
+              @uniq_isolated_bad_lines[bad_word] << uniq_line
+            end
+          end
+          puts @uniq_isolated_bad_lines
         end
+      rescue
+        @error_notice = "You had some invalid input there! Let's try that again."
       end
-      puts @uniq_isolated_bad_lines
     else
-      @error_notice = "Oops...something went wrong!"
+      @error_notice = "You need some input!"
+      return
     end
   end
 

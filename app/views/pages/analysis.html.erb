@@ -1,6 +1,6 @@
-<% if @lyrics %>
+<% if @valid_input %>
   <h1 class="page-header"><%= @song %> <small><%= @artist %></small><%= link_to "Analyze another song!", root_path, class: "btn btn-default pull-right" %></h1>
-  <h2>Final Verdict...<%= @sfw ? "Grandma approves!" : "Grandma disapproves." %></h2>
+  <h2 class="centered lyrics">Final Verdict...<%= @sfw ? "Grandma approves!" : "Grandma disapproves." %></h2>
 
   <% if !@sfw %>
     <div class="row">
@@ -27,10 +27,11 @@
       <% end %>
     <% end %>
   </div>
-  <p class="lyrics">
+  <p class="centered lyrics">
     <%= @lyrics.html_safe %>
   </p>
 <% else %>
-  <% controller.redirect_to root_path %>
-  <h2><%= @error_notice %><%= link_to "Analyze another song!", root_path, class: "btn btn-default pull-right" %></h2>
+  <%# controller.redirect_to root_path %>
+  <h1 class="page-header">Oops...something went wrong!<%= link_to "Analyze another song!", root_path, class: "btn btn-default pull-right" %></h2>
+  <div class="alert alert-danger"><%= @error_notice %></div>
 <% end %>
