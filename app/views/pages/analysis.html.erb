@@ -1,9 +1,29 @@
-<h1>Final Verdict...<%= @sfw ? "Grandma approves!" : "Grandma disapproves." %></h1>
-
-
 <% if @lyrics %>
+  <h1>Final Verdict...<%= @sfw ? "Grandma approves!" : "Grandma disapproves." %></h1>
   <h2><%= "#{@artist} - #{@song}" %></h2>
-  <br>
+  <br />
+
+  <%= @isolated_bad_lines %>
+  <br /><br />
+
+  <% @isolated_bad_lines.each do |bad_word, bad_lines| %>
+    <h4><%= bad_lines.count %> instances of <i><%= bad_word %></i> found:</h4>
+    <% bad_lines.each do |bad_line| %>
+      <%= bad_line %><br />
+    <% end %>
+  <% end %>
+
+  <% @uniq_isolated_bad_lines.each do |bad_word, bad_lines| %>
+    <h4><%= bad_lines.count %> unique instances of <i><%= bad_word %></i> found:</h4>
+    <% bad_lines.each do |bad_line| %>
+      <%= bad_line %><br />
+    <% end %>
+  <% end %>
+
+
+
+
+  <br /><br /><br /><br />
   <%= @lyrics.html_safe %>
 <% else %>
   <h2><%= @error_notice %></h2>
