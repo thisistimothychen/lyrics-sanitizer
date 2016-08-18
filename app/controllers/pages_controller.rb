@@ -33,8 +33,9 @@ class PagesController < ApplicationController
       end
     else
       @error_notice = "You need some input!"
-      return
     end
+
+    @error_notice = "You had some invalid input there! Let's try that again."
   end
 
   private
