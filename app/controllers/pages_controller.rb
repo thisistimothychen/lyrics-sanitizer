@@ -49,15 +49,18 @@ class PagesController < ApplicationController
       bad_words_array.each do |bad_word|
         lyrics_array.length.times do |line_num|
           if (lyrics_array[line_num].downcase().split(" ").include? bad_word)
+            cleaned_line = lyrics_array[line_num].gsub(bad_word, "#{bad_word.tr('aeiou', '*')}")
+            puts "!!!#{cleaned_line}"
+
             if bad_lines[bad_word]
-              bad_lines[bad_word] << lyrics_array[line_num]
+              bad_lines[bad_word] << cleaned_line
             else
-              bad_lines[bad_word] = Array.new << lyrics_array[line_num]
+              bad_lines[bad_word] = Array.new << cleaned_line
             end
 
-            puts "bad line with #{bad_word} found: #{lyrics_array[line_num]}"
+            puts "bad line with #{bad_word} found: #{cleaned_line}"
             puts "#{line_num}: #{highlighted_lyrics_array[line_num]}"
-            highlighted_lyrics_array[line_num] = "<mark class='bad-line-highlight'>#{lyrics_array[line_num]}</mark>"
+            highlighted_lyrics_array[line_num] = "<mark class='bad-line-highlight'>#{cleaned_line}</mark>"
           end
         end
       end
