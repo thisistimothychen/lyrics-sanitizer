@@ -1,5 +1,5 @@
 <% if @valid_input %>
-  <h1 class="page-header"><%= @song %> <small><%= @artist %></small><%= link_to "Analyze another song!", root_path, class: "btn btn-default pull-right" %></h1>
+  <h1 class="page-header"><%= @song.downcase.titleize %> <small><%= @artist.downcase.titleize %></small><%= link_to "Analyze another song!", root_path, class: "btn btn-default pull-right" %></h1>
   <h2 class="centered title">Final Verdict...<%= @sfw ? "Grandma approves!" : "Grandma disapproves." %></h2>
 
   <% if !@sfw %>
