@@ -9,7 +9,7 @@
           <div class="alert alert-info">
             <h4><%= bad_lines.count %> unique instances of <i><%= bad_word.tr('aeiou', '*') %></i> found:</h4>
             <% bad_lines.each do |bad_line| %>
-              <mark class="bad-line-highlight"><%= bad_line %></mark><br />
+              <%= bad_line %><br />
             <% end %>
           </div>
         <% end %>
