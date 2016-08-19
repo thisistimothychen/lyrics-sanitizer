@@ -16,7 +16,7 @@ class PagesController < ApplicationController
         if !song.nil?
           @valid_input = true
           @lyrics = song.body.gsub("\\n", '<br>') # lyrics separated by '\n'
-          @isolated_bad_lines = isolated_bad_lines(@lyrics)
+          @isolated_bad_lines, @highlighted_lyrics = isolated_bad_lines(@lyrics)
           @sfw = @isolated_bad_lines.empty?
 
           @uniq_isolated_bad_lines = Hash.new
@@ -42,23 +42,33 @@ class PagesController < ApplicationController
     def isolated_bad_lines(lyrics)
       bad_words_array = ENV["BAD_WORDS"].downcase().split(" ")
       lyrics_array = lyrics.split("<br>")
+      highlighted_lyrics_array = lyrics.split("<br>")
       bad_lines = Hash.new
       puts "Bad words: #{bad_words_array}"
 
       bad_words_array.each do |bad_word|
-        lyrics_array.each do |line|
-          if (line.downcase().split(" ").include? bad_word)
+        lyrics_array.length.times do |line_num|
+          if (lyrics_array[line_num].downcase().split(" ").include? bad_word)
             if bad_lines[bad_word]
-              puts "class: #{line.class}"
-              bad_lines[bad_word] << line
+              bad_lines[bad_word] << lyrics_array[line_num]
             else
-              bad_lines[bad_word] = Array.new << line
+              bad_lines[bad_word] = Array.new << lyrics_array[line_num]
             end
+
+            puts "bad line with #{bad_word} found: #{lyrics_array[line_num]}"
+            puts "#{line_num}: #{highlighted_lyrics_array[line_num]}"
+            highlighted_lyrics_array[line_num] = "<mark class='bad-line-highlight'>#{lyrics_array[line_num]}</mark>"
           end
         end
       end
 
-      return bad_lines
+      # Convert highlighted_lyrics_array into string with <br> as delimiters
+      highlighted_lyrics = ""
+      highlighted_lyrics_array.each do |line|
+        highlighted_lyrics << "#{line}<br>"
+      end
+
+      return bad_lines, highlighted_lyrics
     end
 
 end

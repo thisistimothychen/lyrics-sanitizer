@@ -8,7 +8,7 @@
         <% @uniq_isolated_bad_lines.each do |bad_word, bad_lines| %>
           <h4><%= bad_lines.count %> unique instances of <i><%= bad_word.tr('aeiou', '*') %></i> found:</h4>
           <% bad_lines.each do |bad_line| %>
-            <%= bad_line %><br />
+            <mark class="bad-line-highlight"><%= bad_line %></mark><br />
           <% end %>
         <% end %>
       </div>
@@ -28,7 +28,8 @@
     <% end %>
   </div>
   <p class="centered lyrics">
-    <%= @lyrics.html_safe %>
+    <%#= @lyrics.html_safe %>
+    <%= @highlighted_lyrics.html_safe %>
   </p>
 <% else %>
   <%# controller.redirect_to root_path %>
