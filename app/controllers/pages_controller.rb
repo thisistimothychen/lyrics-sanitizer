@@ -44,13 +44,17 @@ class PagesController < ApplicationController
       lyrics_array = lyrics.split("<br>")
       highlighted_lyrics_array = lyrics.split("<br>")
       bad_lines = Hash.new
+      cleaned_line = nil
       puts "Bad words: #{bad_words_array}"
 
-      bad_words_array.each do |bad_word|
-        lyrics_array.length.times do |line_num|
+      lyrics_array.length.times do |line_num|
+        bad_words_array.each do |bad_word|
           if (lyrics_array[line_num].downcase().split(" ").include? bad_word)
-            cleaned_line = lyrics_array[line_num].gsub(bad_word, "#{bad_word.tr('aeiou', '*')}")
-            puts "!!!#{cleaned_line}"
+            if cleaned_line.nil?
+              cleaned_line = lyrics_array[line_num].gsub(bad_word.humanize, bad_word.humanize.tr('aeiouAEIOU', '*')).gsub(bad_word, bad_word.tr('aeiouAEIOU', '*'))
+            else
+              cleaned_line = cleaned_line.gsub(bad_word.humanize, bad_word.humanize.tr('aeiouAEIOU', '*')).gsub(bad_word, bad_word.tr('aeiouAEIOU', '*'))
+            end
 
             if bad_lines[bad_word]
               bad_lines[bad_word] << cleaned_line
@@ -58,12 +62,18 @@ class PagesController < ApplicationController
               bad_lines[bad_word] = Array.new << cleaned_line
             end
 
-            puts "bad line with #{bad_word} found: #{cleaned_line}"
-            puts "#{line_num}: #{highlighted_lyrics_array[line_num]}"
-            highlighted_lyrics_array[line_num] = "<mark class='bad-line-highlight'>#{cleaned_line}</mark>"
+            # puts "bad line with #{bad_word.tr('aeiouAEIOU', '*')} found: #{cleaned_line}"
           end
+        end # END bad_words_array.each
+
+        if !cleaned_line.nil?
+          highlighted_lyrics_array[line_num] = "<mark class='bad-line-highlight'>#{cleaned_line}</mark>"
+        else
+          highlighted_lyrics_array[line_num] = lyrics_array[line_num]
         end
-      end
+        cleaned_line = nil
+      end # END lyrics_array.length.times
+
 
       # Convert highlighted_lyrics_array into string with <br> as delimiters
       highlighted_lyrics = ""
