@@ -6,6 +6,7 @@ Check if a song is clean enough for your grandmother! Input either a YouTube vid
 
 ## Potential Features
 - Customize what words you want to filter
+- Option to replace all filtered words with custom placeholders
 - Filtration measures
     - Basic filtration (main cuss words)
     - Sexual filtration
