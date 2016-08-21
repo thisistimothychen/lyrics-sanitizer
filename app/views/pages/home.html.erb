@@ -1,5 +1,12 @@
 <h1 class="page-header">Would Grandma approve of my music taste?</h1>
 
+<div class="col-lg-12">
+  <p class="lead">
+    Check if a song is clean enough for your grandmother! Input
+    a song title and song artist and we'll sanitize the expletives!
+  </p>
+</div>
+
 <form action="<%= analysis_path %>" method="get">
   <div class="col-lg-6 col-xs-12">
     <div class="form-group">
@@ -19,7 +26,7 @@
       <%= text_field_tag :badwords, nil, placeholder: "Separate words with spaces.", class: "form-control" %>
     </div>
     <div class="checkbox">
-      <label><%= check_box_tag :pluralize, 'yes' %>Pluralize my custom words</label>
+      <label><%= check_box_tag :pluralize, 'yes' %>Filter out all plural versions of my custom words</label>
     </div>
   </div>
   <div class="col-lg-12">
