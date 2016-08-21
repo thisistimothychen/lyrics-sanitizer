@@ -40,7 +40,13 @@ class PagesController < ApplicationController
 
   private
     def isolated_bad_lines(lyrics)
-      bad_words_array = ENV["BAD_WORDS"].downcase().split(" ")
+      unpluralized_bad_words_array = ENV["BAD_WORDS"].downcase().split(" ")
+      bad_words_array = Array.new
+      unpluralized_bad_words_array.each do |bad_word|
+        bad_words_array << bad_word
+        bad_words_array << bad_word.pluralize(2)
+      end
+
       lyrics_array = lyrics.split("<br>")
       highlighted_lyrics_array = lyrics.split("<br>")
       bad_lines = Hash.new
@@ -57,9 +63,9 @@ class PagesController < ApplicationController
             end
 
             if bad_lines[bad_word]
-              bad_lines[bad_word] << cleaned_line
+              bad_lines[bad_word] << Obscenity.sanitize(cleaned_line)
             else
-              bad_lines[bad_word] = Array.new << cleaned_line
+              bad_lines[bad_word] = Array.new << Obscenity.sanitize(cleaned_line)
             end
 
             # puts "bad line with #{bad_word.tr('aeiouAEIOU', '*')} found: #{cleaned_line}"
@@ -81,7 +87,7 @@ class PagesController < ApplicationController
         highlighted_lyrics << "#{line}<br>"
       end
 
-      return bad_lines, highlighted_lyrics
+      return bad_lines.sort.to_h, highlighted_lyrics
     end
 
 end

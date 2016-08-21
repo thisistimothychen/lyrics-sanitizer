@@ -56,3 +56,6 @@ gem 'font-awesome-rails'
 
 # Lyrics gem
 gem 'lyricfy'
+
+# Profanity filter
+gem 'obscenity'
