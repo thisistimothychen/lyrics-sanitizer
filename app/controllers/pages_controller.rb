@@ -8,34 +8,40 @@ class PagesController < ApplicationController
     @song = params[:song]
     @artist = params[:artist]
 
-    if !@song.nil? && !@artist.nil?
-      begin
-        fetcher = Lyricfy::Fetcher.new
-        song = fetcher.search @artist.downcase(), @song.downcase()
+    if @song != "" && @song != nil && @artist != "" && @artist != nil
+      fetcher = Lyricfy::Fetcher.new
+      lyrics = fetcher.search @artist.downcase(), @song.downcase()
 
-        if !song.nil?
-          @valid_input = true
-          @lyrics = song.body.gsub("\\n", '<br>') # lyrics separated by '\n'
-          @isolated_bad_lines, @highlighted_lyrics = isolated_bad_lines(@lyrics)
-          @sfw = @isolated_bad_lines.empty?
+      if !lyrics.nil?
+        @valid_input = true
+        @lyrics = lyrics.body.gsub("\\n", '<br>') # lyrics separated by '\n'
+        @isolated_bad_lines, @highlighted_lyrics = isolated_bad_lines(@lyrics)
+        @sfw = @isolated_bad_lines.empty?
 
-          @uniq_isolated_bad_lines = Hash.new
-          @isolated_bad_lines.each do |bad_word, bad_lines|
-            @uniq_isolated_bad_lines[bad_word] = Array.new
-            bad_lines.uniq.each do |uniq_line|
-              @uniq_isolated_bad_lines[bad_word] << uniq_line
-            end
+        @uniq_isolated_bad_lines = Hash.new
+        @isolated_bad_lines.each do |bad_word, bad_lines|
+          @uniq_isolated_bad_lines[bad_word] = Array.new
+          bad_lines.uniq.each do |uniq_line|
+            @uniq_isolated_bad_lines[bad_word] << uniq_line
           end
-          puts @uniq_isolated_bad_lines
         end
-      rescue
-        @error_notice = "You had some invalid input there! Let's try that again."
+        puts @uniq_isolated_bad_lines
       end
     else
-      @error_notice = "You need some input!"
+      if (@song == "" || @song == nil) && (@artist != "" && @artist != nil)
+        @error_notice = "You need to enter a song by #{@artist.downcase.titleize}!"
+      elsif (@artist == "" || @artist == nil) && (@song != "" && @song != nil)
+        @error_notice = "You need to enter an artist name for the song \"#{@song.downcase.titleize}\"!"
+      else
+        @error_notice = "You need to enter a song and an artist name!"
+      end
     end
 
-    @error_notice = "You had some invalid input there! Let's try that again."
+    if @error_notice == nil
+      @error_notice = "Sorry! Something broke...You might have had some
+      invalid input there. Our services currently only support songs which
+      have lyrics provided by MetroLyrics and Wikia."
+    end
   end
 
   private
