@@ -1,9 +1,9 @@
 <h1 class="page-header">Would Grandma approve of my music taste?</h1>
 
 <div class="col-lg-12">
-  <p class="lead">
-    Check if a song is clean enough for your grandmother! Input
-    a song title and song artist and we'll sanitize the expletives!
+  <p class="lead text-center">
+    Check if a song is clean enough for your grandmother!<br />
+    Input a song title and song artist and we'll sanitize the expletives!
   </p>
 </div>
 
@@ -25,7 +25,7 @@
       <label for="badwords">Custom explicatives to filter (optional)</label>
       <%= text_field_tag :badwords, nil, placeholder: "Separate words with spaces.", class: "form-control" %>
     </div>
-    <div class="checkbox">
+    <div class="checkbox" id="pluralize-checkbox">
       <label><%= check_box_tag :pluralize, 'yes' %>Filter out all plural versions of my custom words</label>
     </div>
   </div>
