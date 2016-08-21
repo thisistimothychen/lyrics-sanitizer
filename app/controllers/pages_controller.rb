@@ -8,7 +8,17 @@ class PagesController < ApplicationController
     @song = params[:song]
     @artist = params[:artist]
 
-    if @song != "" && @song != nil && @artist != "" && @artist != nil
+    # Lyricfy might recognize the song based on just one parameter
+    if @song != nil && @artist != nil
+      begin
+        fetcher = Lyricfy::Fetcher.new
+        lyrics = fetcher.search @artist.downcase(), @song.downcase()
+      rescue
+        lyrics = nil
+      end
+    end
+
+    if lyrics != nil
       fetcher = Lyricfy::Fetcher.new
       lyrics = fetcher.search @artist.downcase(), @song.downcase()
 
