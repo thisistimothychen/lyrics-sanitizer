@@ -68,7 +68,7 @@ class PagesController < ApplicationController
 
       # Pluralize or not
       bad_words_array = Array.new
-      if pluralize
+      if pluralize || @custom_bad_words == nil || @custom_bad_words == ""
         unpluralized_bad_words_array.each do |bad_word|
           bad_words_array << bad_word
           bad_words_array << bad_word.pluralize(2)
