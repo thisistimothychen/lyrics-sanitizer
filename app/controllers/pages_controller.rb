@@ -7,6 +7,9 @@ class PagesController < ApplicationController
     @valid_input = false
     @song = params[:song]
     @artist = params[:artist]
+    if params[:badwords] != "" || params[:badwords] != nil
+      @custom_bad_words = params[:badwords]
+    end
 
     # Lyricfy might recognize the song based on just one parameter
     if @song != nil && @artist != nil
@@ -25,7 +28,7 @@ class PagesController < ApplicationController
       if !lyrics.nil?
         @valid_input = true
         @lyrics = lyrics.body.gsub("\\n", '<br>') # lyrics separated by '\n'
-        @isolated_bad_lines, @highlighted_lyrics = isolated_bad_lines(@lyrics)
+        @isolated_bad_lines, @highlighted_lyrics = isolated_bad_lines(@lyrics, params[:pluralize])
         @sfw = @isolated_bad_lines.empty?
 
         @uniq_isolated_bad_lines = Hash.new
@@ -55,12 +58,31 @@ class PagesController < ApplicationController
   end
 
   private
-    def isolated_bad_lines(lyrics)
-      unpluralized_bad_words_array = ENV["BAD_WORDS"].downcase().split(" ")
+    def isolated_bad_lines(lyrics, pluralize)
+      # Parse the bad words string
+      if @custom_bad_words == nil || @custom_bad_words == ""
+        unpluralized_bad_words_array = ENV["BAD_WORDS"].downcase().split(" ")
+      else
+        unpluralized_bad_words_array = @custom_bad_words.downcase().split(" ")
+      end
+
+      # Pluralize or not
       bad_words_array = Array.new
-      unpluralized_bad_words_array.each do |bad_word|
-        bad_words_array << bad_word
-        bad_words_array << bad_word.pluralize(2)
+      if pluralize
+        unpluralized_bad_words_array.each do |bad_word|
+          bad_words_array << bad_word
+          bad_words_array << bad_word.pluralize(2)
+        end
+      else
+        unpluralized_bad_words_array.each do |bad_word|
+          bad_words_array << bad_word
+        end
+      end
+
+      # Configure Obscenity gem
+      Obscenity.configure do |config|
+        config.blacklist = bad_words_array
+        config.replacement = :vowels
       end
 
       lyrics_array = lyrics.split("<br>")
