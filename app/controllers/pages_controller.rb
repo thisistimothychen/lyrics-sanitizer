@@ -45,7 +45,7 @@ class PagesController < ApplicationController
         @error_notice = "You need to enter a song by #{@artist.downcase.titleize}!"
       elsif (@artist == "" || @artist == nil) && (@song != "" && @song != nil)
         @error_notice = "You need to enter an artist name for the song \"#{@song.downcase.titleize}\"!"
-      else
+      elsif (@song == "" || @song == nil) && (@artist == "" && @artist == nil)
         @error_notice = "You need to enter a song and an artist name!"
       end
     end
